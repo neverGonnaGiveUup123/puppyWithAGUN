@@ -7,20 +7,19 @@ class Puppy(pygame.sprite.Sprite):
         self.screen = screen
         self.pos = [500,500]
         self.speed = speed
+        self.mask = pygame.mask.Mask(self.image.get_size(),True)
     
     def move_right(self):
-        print("e")
         self.pos[0] += self.speed
-        self.screen.blit(self.image, self.pos)
     
     def move_up(self):
-        self.pos[1] += self.speed
-        self.screen.blit(self.image, self.pos)
+        self.pos[1] -= self.speed
     
     def move_left(self):
         self.pos[0] -= self.speed
-        self.screen.blit(self.image, self.pos)
     
     def move_down(self):
-        self.pos[1] -= self.speed
-        self.screen.blit(self.image, self.pos)
+        self.pos[1] += self.speed
+    
+    def update(self):
+        self.screen.blit(self.image,self.pos)

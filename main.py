@@ -13,20 +13,30 @@ SCREEN = pygame.display.set_mode(WINDOWDIMENSIONS)
 
 clock = pygame.time.Clock()
 
-puppy = Puppy(pygame.image.load("src/sprites/puppy/e.png"), SCREEN, 1)
+puppy = Puppy(pygame.image.load("src/sprites/puppy/e.png"), SCREEN, 8)
+
+def handle_keyboard_input():
+    keys = pygame.key.get_pressed()
+    if any(keys):
+        if keys[pygame.K_d]:
+            puppy.move_right()
+        if keys[pygame.K_s]:
+            puppy.move_down()
+        if keys[pygame.K_a]:
+            puppy.move_left()
+        if keys[pygame.K_w]:
+            puppy.move_up()
+    puppy.update()
 
 running = True
 while running:
     SCREEN.fill((0,0,0))
-    keys = pygame.key.get_pressed()
     clock.tick(30)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit(0)
-    
-    if keys[pygame.K_d]:
-        puppy.move_right()
 
+    handle_keyboard_input()
     # SCREEN.blit(pygame.image.load("src/sprites/puppy/e.png"), [500,500])
     pygame.display.flip()
