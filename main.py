@@ -34,6 +34,7 @@ def handle_keyboard_input():
             playerBullet.create_bullet(puppy.return_pos())
 
     puppy.update()
+    print(puppy.return_pos())
 
 while True:
     SCREEN.fill((0,0,0))
@@ -44,5 +45,6 @@ while True:
             sys.exit(0)
 
     playerBullet.handle_bullet()
+    # print(pygame.mouse.get_pos())
     handle_keyboard_input()
     pygame.display.flip()
