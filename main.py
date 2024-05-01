@@ -14,10 +14,10 @@ SCREEN = pygame.display.set_mode(WINDOWDIMENSIONS)
 
 clock = pygame.time.Clock()
 
-puppy = Puppy(pygame.image.load("src/sprites/puppy/e.png"), SCREEN, 8)
+puppy = Puppy(pygame.image.load("src/sprites/bullet/BULLET.png"), SCREEN, 8)
 
 bulletImg = pygame.image.load("src/sprites/bullet/BULLET.png")
-playerBullet = Bullet(24, 0, bulletImg, SCREEN)
+playerBullet = Bullet(24, 0, bulletImg, SCREEN, 30, 2)
 
 def handle_keyboard_input():
     keys = pygame.key.get_pressed()
@@ -34,7 +34,7 @@ def handle_keyboard_input():
             playerBullet.create_bullet(puppy.return_pos())
 
     puppy.update()
-    print(puppy.return_pos())
+    # print(puppy.return_pos())
 
 while True:
     SCREEN.fill((0,0,0))
