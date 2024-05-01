@@ -3,23 +3,26 @@ import pygame
 class Puppy(pygame.sprite.Sprite):
     def __init__(self, image: pygame.Surface, screen: pygame.Surface, speed: int) -> None:
         pygame.sprite.Sprite.__init__(self)
-        self.image = image
-        self.screen = screen
-        self.pos = [500,500]
-        self.speed = speed
-        self.mask = pygame.mask.Mask(self.image.get_size(),True)
+        self._image = image
+        self._screen = screen
+        self._pos = [500,500]
+        self._speed = speed
+        self._mask = pygame.mask.Mask(self._image.get_size(),True)
     
     def move_right(self):
-        self.pos[0] += self.speed
+        self._pos[0] += self._speed
     
     def move_up(self):
-        self.pos[1] -= self.speed
+        self._pos[1] -= self._speed
     
     def move_left(self):
-        self.pos[0] -= self.speed
+        self._pos[0] -= self._speed
     
     def move_down(self):
-        self.pos[1] += self.speed
+        self._pos[1] += self._speed
     
     def update(self):
-        self.screen.blit(self.image,self.pos)
+        self._screen.blit(self._image,self._pos)
+    
+    def return_pos(self):
+        return self._pos

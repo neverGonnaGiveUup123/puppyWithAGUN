@@ -2,6 +2,7 @@ import sys
 import pygame
 from src.settings import *
 from src.sprites.puppy.puppy import Puppy
+from src.sprites.bullet.bullet import Bullet
 
 pygame.init()
 
@@ -15,6 +16,9 @@ clock = pygame.time.Clock()
 
 puppy = Puppy(pygame.image.load("src/sprites/puppy/e.png"), SCREEN, 8)
 
+bulletImg = pygame.image.load("src/sprites/bullet/BULLET.png")
+playerBullet = Bullet(24, 0, bulletImg, SCREEN)
+
 def handle_keyboard_input():
     keys = pygame.key.get_pressed()
     if any(keys):
@@ -26,10 +30,12 @@ def handle_keyboard_input():
             puppy.move_left()
         if keys[pygame.K_w]:
             puppy.move_up()
+        if keys[pygame.K_SPACE]:
+            playerBullet.create_bullet(puppy.return_pos())
+
     puppy.update()
 
-running = True
-while running:
+while True:
     SCREEN.fill((0,0,0))
     clock.tick(30)
     for event in pygame.event.get():
@@ -37,6 +43,6 @@ while running:
             pygame.quit()
             sys.exit(0)
 
+    playerBullet.handle_bullet()
     handle_keyboard_input()
-    # SCREEN.blit(pygame.image.load("src/sprites/puppy/e.png"), [500,500])
     pygame.display.flip()
