@@ -10,6 +10,7 @@ class E:
         self.screen = screen
         self.bullet = Bullet(10, 0, pygame.image.load("src/sprites/bullet/BULLET.png"), self.screen, 50, 5)
         self.target = target
+        self.mask = pygame.mask.Mask(self.img.get_size(), True)
 
     
     def move_towards(self, target: list, distance: int):
@@ -21,6 +22,9 @@ class E:
     
     def update_self(self):
         self.screen.blit(self.img, self.spawn)
+    
+    def return_mask(self):
+        return self.mask
     
     # def update(self):
     #     self.bullet.handle_bullet()

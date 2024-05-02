@@ -50,5 +50,7 @@ while True:
     enemy.attack()
     enemy.update_self()
 
+    puppy.check_collision(enemy.return_mask())
+
     handle_keyboard_input()
     pygame.display.flip()

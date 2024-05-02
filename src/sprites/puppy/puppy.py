@@ -24,5 +24,9 @@ class Puppy(pygame.sprite.Sprite):
     def update(self):
         self._screen.blit(self._image,self._pos)
     
+    def check_collision(self, other):
+        if self._mask.overlap(other,(0,0)):
+            print("yay")
+    
     def return_pos(self):
         return self._pos
