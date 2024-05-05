@@ -3,7 +3,7 @@ import pygame
 from src.settings import *
 from src.sprites.puppy.puppy import Puppy
 from src.sprites.bullet.bullet import Bullet
-from src.sprites.enemies.baseEnemies import E
+from src.sprites.enemies.baseEnemies import Drone
 
 pygame.init()
 
@@ -16,9 +16,8 @@ clock = pygame.time.Clock()
 puppy = Puppy(pygame.image.load("src/sprites/bullet/BULLET.png"), SCREEN, 8)
 
 bulletImg = pygame.image.load("src/sprites/bullet/BULLET.png")
-playerBullet = Bullet(24, 0, bulletImg, SCREEN, 30, 10)
 
-enemy = E(30, 30, pygame.image.load('src/sprites/bullet/BULLET.png'), [800,500], SCREEN, puppy.return_pos())
+bullets = []
 
 def handle_keyboard_input():
     keys = pygame.key.get_pressed()
@@ -32,10 +31,21 @@ def handle_keyboard_input():
         if keys[pygame.K_w]:
             puppy.move_up()
         if keys[pygame.K_SPACE]:
-            playerBullet.create_bullet(puppy.return_pos(), pygame.mouse.get_pos())
+            bullets.append(Bullet(24,5,pygame.image.load('src/sprites/bullet/BULLET.png'),SCREEN,15,5,puppy.return_pos(),pygame.mouse.get_pos()))
 
     puppy.update()
     # print(puppy.return_pos())
+
+enemies = []
+enemies.append(Drone(4,4,pygame.image.load('src/sprites/bullet/BULLET.png'), (800,800), SCREEN, puppy.return_pos()))
+def handle_sprites():
+    for i in enemies:
+        bullets.append(i.attack())
+    
+    for i in bullets:
+        if i.return_lifetime() == 0:
+            bullets.remove(i)
+        i.handle_bullet()
 
 while True:
     SCREEN.fill((0,0,0))
@@ -45,12 +55,7 @@ while True:
             pygame.quit()
             sys.exit(0)
 
-    Bullet.handle_bullet()
-    # print(pygame.mouse.get_pos())
-    enemy.attack()
-    enemy.update_self()
-
-    puppy.check_collision(enemy.return_mask())
-
     handle_keyboard_input()
+    handle_sprites()
+    print(1)
     pygame.display.flip()
