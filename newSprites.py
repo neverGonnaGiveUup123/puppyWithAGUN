@@ -74,8 +74,8 @@ class Sprites:
         def __init__(self, startCoord: list, endCoord: tuple, velocity: int, skin: pygame.Surface, lifetime: int):
             super().__init__()
             self.add(Sprites.sprites)
-            self.startCoord = startCoord
-            self.currentPos = self.startCoord.copy()
+            self.startCoord = startCoord.copy()
+            self.currentPos = startCoord.copy()
             self.endCoord = endCoord
             self.velocity = velocity
             self.skin = skin
@@ -122,5 +122,5 @@ class Sprites:
             # print(Sprites.sprites)
             # print(spr)
             spr.update()
-            print(spr)
-        print("-------------")
+        #     print(spr)
+        # print("-------------")
