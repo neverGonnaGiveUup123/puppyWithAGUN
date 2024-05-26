@@ -2,6 +2,7 @@ import pygame
 
 class Sprites:
     sprites = pygame.sprite.Group()
+    bullets = pygame.sprite.Group()
     screen = None
     
     class Drone(pygame.sprite.Sprite):
@@ -9,30 +10,22 @@ class Sprites:
             super().__init__()
             self.add(Sprites.sprites)
             self.skin = skin
+            self.alpha_skin = self.skin.convert_alpha()
             self.pos = spawn
             self.velocity = velocity
             self.target = target
-            self.mask = pygame.mask.from_surface(self.skin)
+            self.rect = self.alpha_skin.get_rect(center=self.pos)
+            self.mask = pygame.mask.from_surface(self.alpha_skin)
+            print(type(self))
 
         def __repr__(self) -> str:
-            return "I am a drone!"
-        
-        # def move_towards_target(self):
-        #     if self.pos[0] == self.target[0] and self.pos[1] == self.target[1]:
-        #         return
-
-        #     if self.pos[0] >= self.target[0]:
-        #         self.pos[0] -= self.velocity
-        #     else:
-        #         self.pos[0] += self.velocity
-            
-        #     if self.pos[1] >= self.target[1]:
-        #         self.pos[1] -= self.velocity
-        #     else:
-        #         self.pos[1] += self.velocity
+            return str(self.rect.center)
 
         def update(self):
             # self.move_towards_target()
+            if pygame.sprite.spritecollide(self, Sprites.bullets, False,pygame.sprite.collide_mask):
+                print("collision")
+
             Sprites.screen.blit(self.skin, self.pos)
     
     class Player(pygame.sprite.Sprite):
@@ -43,7 +36,7 @@ class Sprites:
             self.skin = skin
             self.pos = [0,0]
             self.cooldown = 20
-            self.mask = pygame.mask.from_surface(self.skin)
+            # self.mask = pygame.mask.from_surface(self.skin)
 
         def __repr__(self) -> str:
             return "I am the player!"
@@ -73,13 +66,16 @@ class Sprites:
     class Bullet(pygame.sprite.Sprite):
         def __init__(self, startCoord: list, endCoord: tuple, velocity: int, skin: pygame.Surface, lifetime: int):
             super().__init__()
-            self.add(Sprites.sprites)
+            self.add(Sprites.bullets)
             self.startCoord = startCoord.copy()
             self.currentPos = startCoord.copy()
             self.endCoord = endCoord
             self.velocity = velocity
             self.skin = skin
+            self.alpha_skin = self.skin.convert_alpha()
             self.lifetime = lifetime
+            self.mask = pygame.mask.from_surface(self.alpha_skin)
+            self.rect = self.alpha_skin.get_rect(center=self.currentPos)
 
             if self.endCoord[0] - self.startCoord[0] == 0:
                 self.gradient = 999
@@ -91,9 +87,10 @@ class Sprites:
             # print(self.absGradient)
         
         def __repr__(self) -> str:
-            return str(self.lifetime)
+            return str(self.rect.center)
         
         def update(self):
+            self.rect.center = self.currentPos
             self.lifetime -= 1
 
             if self.absGradient <= 1:
@@ -123,4 +120,7 @@ class Sprites:
             # print(spr)
             spr.update()
         #     print(spr)
+        for bul in Sprites.bullets:
+            # print(bul)
+            bul.update()
         # print("-------------")
